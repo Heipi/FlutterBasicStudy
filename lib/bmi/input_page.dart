@@ -20,7 +20,16 @@ class _InputPageState extends State<InputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('BMI CALCULATOR'),
+      ),
+      floatingActionButton: Theme(
+        data: ThemeData(
+          accentColor: Colors.purple,
+        ),
+        child: FloatingActionButton(
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }
