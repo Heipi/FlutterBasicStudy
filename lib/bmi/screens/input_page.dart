@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:light/bmi/result_page.dart';
-import 'package:light/bmi/reusable_card.dart';
+import 'package:light/bmi/calculator_brain.dart';
+import 'package:light/bmi/components/reusable_card.dart';
+import 'package:light/bmi/screens/result_page.dart';
+import 'package:light/bmi/components/round_icon_button.dart';
 
-import 'constant.dart';
-import 'icon_content.dart';
+import '../components/bottom_button.dart';
+import '../constant.dart';
+import '../components/icon_content.dart';
 
 enum Gender {
   male,
@@ -187,7 +190,9 @@ class _InputPageState extends State<InputPage> {
                                 icon: FontAwesomeIcons.minus,
                                 onPressed: () {
                                   setState(() {
-                                    age--;
+                                    if (age > 0) {
+                                      age--;
+                                    }
                                   });
                                 }),
                             SizedBox(
@@ -210,42 +215,22 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          GestureDetector(
+          BottomButton(
+            buttonTitle: 'CALCULATE',
             onTap: () {
+              CalculatorBrain calc =
+                  CalculatorBrain(height: height, weight: weight);
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ResultPage();
+                return ResultPage(
+                  bmiResult: calc.calculateBMI(),
+                  resultText: calc.getResult(),
+                  interpretation: calc.getInterpretation(),
+                );
               }));
             },
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                'CALCULATE',
-              ),
-              margin: EdgeInsets.only(top: 10.0),
-              color: kBottomContainerColour,
-              height: kBottomContainerHeight,
-              width: double.infinity,
-            ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  final IconData icon;
-  final Function onPressed;
-  const RoundIconButton({@required this.icon, @required this.onPressed});
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon),
-      onPressed: onPressed,
-      elevation: 6.0,
-      constraints: BoxConstraints.tightFor(width: 56.0, height: 56.0),
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
     );
   }
 }
