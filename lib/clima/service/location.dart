@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Location {
@@ -8,8 +7,9 @@ class Location {
 //  Location(this.latitude, this.longitude);
   Future<void> getCurrentLocation() async {
     try {
+      print('=====' + "---");
       Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
       print('=====' + position.toString());
       latitude = position.latitude;
       longitude = position.longitude;

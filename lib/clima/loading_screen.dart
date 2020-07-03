@@ -1,7 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 import 'package:light/clima/service/location.dart';
+import 'package:light/clima/service/networking.dart';
+
+import 'location_screen.dart';
 //import 'package:geolocator/geolocator.dart';
+
+const apiKey = "81a79366a7ad078d66b53e78ce0e4d58";
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -9,18 +18,35 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getLocation() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-    print(location.latitude);
-    print(location.longitude);
-  }
+  double latitude;
+  double longitude;
+
+  //      double temperature = decodedData['main']['temp'];
+  //      int condition = decodedData['weather'][0]['id'];
+  //      String cityName = decodedData['name'];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getLocation();
+    print('initState');
+    getLocationData();
+  }
+
+  void getLocationData() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+    print(location.latitude);
+    print(location.longitude);
+    latitude = location.latitude;
+    longitude = location.longitude;
+    NetworkHelper networkHelper =
+        NetworkHelper('https://api.openweathermap.org/data/2.5/weather?'
+            'lat=$latitude&lon=$longitude&appid=$apiKey');
+    var weatherData = await networkHelper.getData();
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationScreen();
+    }));
   }
 
   @override
@@ -32,11 +58,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
         elevation: 5.0,
       ),
       body: Center(
-          child: RaisedButton(
-              onPressed: () {
-                getLocation();
-              },
-              child: Text('Get Location'))),
+          child: SpinKitDoubleBounce(
+        color: Colors.white,
+        size: 100.0,
+      )),
     );
   }
+  /*   child: RaisedButton(
+              onPressed: () {
+                print("DO it");
+                getLocationData();
+              },
+              child: Text('Get Location')))
+  * */
 }
