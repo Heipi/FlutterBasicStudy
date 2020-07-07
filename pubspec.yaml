@@ -58,6 +58,7 @@ flutter:
     - images/
     - images/clima/
     - assets/
+
   fonts:
     - family: Pacifico
       fonts:
@@ -65,6 +66,7 @@ flutter:
     - family: SourceSansPro
       fonts:
         - asset: fonts/SourceSansPro-Regular.ttf
+
     - family: Spartan MB
       fonts:
         - asset: fonts/SpartanMB-Black.otf
