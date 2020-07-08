@@ -35,8 +35,8 @@ dependencies:
    #加载指示器集合
    # A collection of loading indicators animated with flutter
   flutter_spinkit: "^4.1.2"
-
-
+  #很棒的超酷文本动画
+  animated_text_kit: ^2.2.0
 
 dev_dependencies:
   flutter_test:
