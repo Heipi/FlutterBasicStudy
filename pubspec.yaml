@@ -57,6 +57,7 @@ flutter:
   assets:
     - images/
     - images/clima/
+    - images/chat/
     - assets/
 
   fonts:
