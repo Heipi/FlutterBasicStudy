@@ -38,6 +38,13 @@ dependencies:
   #很棒的超酷文本动画
   animated_text_kit: ^2.2.0
 
+  #Flutter插件可使用Firebase Core API
+  firebase_core: ^0.4.5
+  #Firebase身份验证API
+  firebase_auth: ^0.16.1
+  #Cloud Firestore API
+  cloud_firestore: ^0.13.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
