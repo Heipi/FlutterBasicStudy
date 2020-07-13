@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:light/flashchat/constants.dart';
 
@@ -83,16 +84,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   );
                 }
                 final messages = snapshot.data.documents;
-                List<Text> messageWidgets = [];
+                List<MessageBubble> messageBubbles = [];
                 for (var message in messages) {
                   final messageText = message.data['text'];
                   final messageSender = message.data['sender'];
-                  final messageWidget =
-                      Text('$messageText from $messageSender');
-                  messageWidgets.add(messageWidget);
+                  final messageBubble = MessageBubble(
+                    text: messageText,
+                    sender: messageSender,
+                  );
+                  messageBubbles.add(messageBubble);
                 }
-                return Column(
-                  children: messageWidgets,
+                return Expanded(
+                  child: ListView(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                    children: messageWidgets,
+                  ),
                 );
               },
             ),
@@ -125,6 +132,23 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MessageBubble extends StatelessWidget {
+  final String sender;
+  final String text;
+
+  const MessageBubble({Key key, this.sender, this.text}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.lightBlueAccent,
+      child: Text(
+        '$text from $sender',
+        style: TextStyle(fontSize: 50),
       ),
     );
   }
