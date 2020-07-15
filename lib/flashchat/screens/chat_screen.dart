@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:light/flashchat/constants.dart';
 
 final _firestore = Firestore.instance;
@@ -18,10 +19,40 @@ class _ChatScreenState extends State<ChatScreen> {
 
   String messageText;
   final messageTextController = TextEditingController();
+  FocusNode _contentFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
+    _contentFocusNode.unfocus();
+    _contentFocusNode.addListener(_focusNodeListener);
+//    SystemChannels.textInput.invokeMethod('TextInput.hide');
+    SystemChannels.textInput.invokeMethod('TextInput.show');
+
+    /// WidgetsBinding 它能监听到第一帧绘制完成，第一帧绘制完成标志着已经Build完成
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ///获取输入框焦点
+      /*FocusScope.of(context).requestFocus(_contentFocusNode);
+      _contentFocusNode.unfocus();*/
+    });
+
     getCurrentUser();
+  }
+
+  void _focusNodeListener() {
+    // 用async的方式实现这个listener
+    if (_contentFocusNode.hasFocus) {
+      print('TextField got the focus');
+    } else {
+      print('TextField lost the focus');
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _contentFocusNode.removeListener(_focusNodeListener);
+    _contentFocusNode.dispose();
   }
 
   void getCurrentUser() async {
@@ -82,7 +113,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      onTap: () {
+                        FocusScope.of(context).requestFocus(_contentFocusNode);
+//                        I/InputMethodManager(19546): showSoftInput
+//                        W/InputMethodManager(19546): startInputReason = 3
+//                        FocusScope.of(context).requestFocus(_contentFocusNode);
+                        print("tap ");
+                      },
                       autofocus: false,
+                      focusNode: _contentFocusNode,
                       controller: messageTextController,
                       onChanged: (value) {
                         messageText = value;
