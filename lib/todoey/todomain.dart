@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/FlutterBasicStudy/lib/todoey/screens/task_screen.dart';
+import 'package:light/todoey/screens/task_screen.dart';
 
 void main() => runApp(MyApp());
 
