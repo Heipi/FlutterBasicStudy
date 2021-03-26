@@ -3,7 +3,7 @@ import 'package:light/todoey/widgets/task_title.dart';
 
 class TaskList extends StatelessWidget {
   const TaskList({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -14,6 +14,7 @@ class TaskList extends StatelessWidget {
         ListTile(
           title: Text('This is a task'),
           trailing: Checkbox(
+            onChanged: (bool) {},
             value: false,
           ),
         ),

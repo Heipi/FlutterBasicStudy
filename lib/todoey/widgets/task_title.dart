@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TaskTitle extends StatelessWidget {
   const TaskTitle({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -10,6 +10,7 @@ class TaskTitle extends StatelessWidget {
     return ListTile(
       title: Text('This is a task'),
       trailing: Checkbox(
+        onChanged: (bool) {},
         value: false,
       ),
     );
