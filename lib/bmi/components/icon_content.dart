@@ -6,7 +6,8 @@ class IconContent extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const IconContent({Key key, this.icon, this.label}) : super(key: key);
+  const IconContent({Key? key, required this.icon, required this.label})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(

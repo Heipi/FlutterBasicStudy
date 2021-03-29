@@ -13,8 +13,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  double latitude;
-  double longitude;
+  late double latitude;
+  late double longitude;
 
   @override
   void initState() {

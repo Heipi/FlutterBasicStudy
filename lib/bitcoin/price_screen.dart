@@ -11,7 +11,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String selectedCurrency = 'AUD';
+  String? selectedCurrency = 'AUD';
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -66,13 +66,13 @@ class _PriceScreenState extends State<PriceScreen> {
 
 //  String bitcoinValue = '?';
 //  List<String> bitCoinValue = ['?', "?", "?"];
-  Map<String, String> bitCoinValues = {};
+  Map<String, String>? bitCoinValues = {};
   bool isWaiting = false;
   void getData() async {
     isWaiting = true;
     try {
 //      double data = await CoinData().getCoinData(base, selectedCurrency);
-      var data = await CoinData().getCoinData(selectedCurrency);
+      var data = await CoinData().getCoinData(selectedCurrency!);
       isWaiting = false;
       setState(() {
 //        bitcoinValue = data.toStringAsFixed(0);
@@ -114,16 +114,17 @@ class _PriceScreenState extends State<PriceScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               CryptoCard(
-                  crypto: cryptoList[0],
-                  bitcoinValue: isWaiting ? '?' : bitCoinValues['BTC'],
-                  selectedCurrency: selectedCurrency),
+                crypto: cryptoList[0],
+                selectedCurrency: selectedCurrency,
+                bitcoinValue: isWaiting ? '?' : bitCoinValues?['BTC'],
+              ),
               CryptoCard(
                   crypto: cryptoList[1],
-                  bitcoinValue: isWaiting ? '?' : bitCoinValues[cryptoList[1]],
+                  bitcoinValue: isWaiting ? '?' : bitCoinValues?[cryptoList[1]],
                   selectedCurrency: selectedCurrency),
               CryptoCard(
                   crypto: cryptoList[2],
-                  bitcoinValue: isWaiting ? '?' : bitCoinValues[cryptoList[2]],
+                  bitcoinValue: isWaiting ? '?' : bitCoinValues?[cryptoList[2]],
                   selectedCurrency: selectedCurrency),
             ],
           ),
@@ -143,15 +144,15 @@ class _PriceScreenState extends State<PriceScreen> {
 
 class CryptoCard extends StatelessWidget {
   const CryptoCard({
-    Key key,
-    @required this.crypto,
-    @required this.bitcoinValue,
-    @required this.selectedCurrency,
+    Key? key,
+    required this.crypto,
+    required this.bitcoinValue,
+    required this.selectedCurrency,
   }) : super(key: key);
 
-  final String bitcoinValue;
-  final String selectedCurrency;
-  final String crypto;
+  final String? bitcoinValue;
+  final String? selectedCurrency;
+  final String? crypto;
 
   @override
   Widget build(BuildContext context) {

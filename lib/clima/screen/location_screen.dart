@@ -13,10 +13,10 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
   WeatherModel weather = WeatherModel();
-  int temperature;
-  String weatherIcon;
-  String cityName;
-  String weatherMessage;
+  late int temperature;
+  late String weatherIcon;
+  late String cityName;
+  late String weatherMessage;
   @override
   void initState() {
     super.initState();

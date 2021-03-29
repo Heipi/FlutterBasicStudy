@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:light/flashchat/constants.dart';
 
 final _firestore = Firestore.instance;
-FirebaseUser loggedUser;
+late FirebaseUser loggedUser;
 
 class ChatScreen extends StatefulWidget {
   static const String id = "chat_screen";
@@ -17,7 +17,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
 
-  String messageText;
+  late String messageText;
   final messageTextController = TextEditingController();
   FocusNode _contentFocusNode = FocusNode();
   @override
@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
     SystemChannels.textInput.invokeMethod('TextInput.show');
 
     /// WidgetsBinding 它能监听到第一帧绘制完成，第一帧绘制完成标志着已经Build完成
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       ///获取输入框焦点
       /*FocusScope.of(context).requestFocus(_contentFocusNode);
       _contentFocusNode.unfocus();*/
@@ -170,25 +170,26 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.documents.reversed;
+        final messages = snapshot.data?.documents.reversed;
         List<MessageBubble> messageBubbles = [];
-        for (var message in messages) {
-          final messageText = message.data['text'];
-          final messageSender = message.data['sender'];
-          final messageDateTime = message.data['sendTime'];
-          final messageFormatTime = message.data['sendFormatTime'];
-          final currentUser = loggedUser.email;
-          //the message from the logger in user.
-          final messageBubble = MessageBubble(
-              text: messageText,
-              sender: messageSender,
-              isMe: currentUser == messageSender,
-              messageDateTime: messageDateTime,
-              formatTime: messageFormatTime);
-          messageBubbles.add(messageBubble);
-          messageBubbles.sort((a, b) => DateTime.parse(b.messageDateTime)
-              .compareTo(DateTime.parse(a.messageDateTime)));
-        }
+        if (messages != null)
+          for (var message in messages) {
+            final messageText = message.data['text'];
+            final messageSender = message.data['sender'];
+            final messageDateTime = message.data['sendTime'];
+            final messageFormatTime = message.data['sendFormatTime'];
+            final currentUser = loggedUser.email;
+            //the message from the logger in user.
+            final messageBubble = MessageBubble(
+                text: messageText,
+                sender: messageSender,
+                isMe: currentUser == messageSender,
+                messageDateTime: messageDateTime,
+                formatTime: messageFormatTime);
+            messageBubbles.add(messageBubble);
+            messageBubbles.sort((a, b) => DateTime.parse(b.messageDateTime)
+                .compareTo(DateTime.parse(a.messageDateTime)));
+          }
         return Expanded(
           child: ListView(
             reverse: true,
@@ -208,12 +209,12 @@ class MessageBubble extends StatelessWidget {
   final String messageDateTime;
   final String formatTime;
   MessageBubble(
-      {Key key,
-      this.sender,
-      this.text,
-      this.isMe,
-      this.messageDateTime,
-      this.formatTime})
+      {Key? key,
+      required this.sender,
+      required this.text,
+      required this.isMe,
+      required this.messageDateTime,
+      required this.formatTime})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
