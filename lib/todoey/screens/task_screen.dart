@@ -27,10 +27,11 @@ class _TaskScreenState extends State<TaskScreen> {
               // isScrollControlled: true,
               context: context,
               builder: (context) => SingleChildScrollView(
-                  child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddTaskScreen(
+                      child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child:
+                        AddTaskScreen(), /*AddTaskScreen(
                         addTaskCallback: (value) {
                           print(value);
                           if (value == null) return;
@@ -39,7 +40,8 @@ class _TaskScreenState extends State<TaskScreen> {
                           // });
                           Navigator.pop(context);
                         },
-                      ))));
+                      )*/
+                  )));
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(

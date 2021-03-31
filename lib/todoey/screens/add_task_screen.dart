@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:light/todoey/model/task.dart';
+import 'package:light/todoey/model/task_data.dart';
+import 'package:provider/provider.dart';
 
 class AddTaskScreen extends StatelessWidget {
   String? newTaskTitle;
-  final Function addTaskCallback;
-  AddTaskScreen({Key? key, required this.addTaskCallback}) : super(key: key);
+  // final Function addTaskCallback;
+  // AddTaskScreen({Key? key, required this.addTaskCallback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,11 @@ class AddTaskScreen extends StatelessWidget {
               // style: ,
               // color: Colors.lightBlueAccent,
               onPressed: () {
-                addTaskCallback(newTaskTitle);
+                if (newTaskTitle == null || newTaskTitle!.isEmpty) return;
+                Provider.of<TaskData>(context, listen: false)
+                    .addTask(newTaskTitle!);
+                Navigator.of(context).pop();
+                // addTaskCallback(newTaskTitle);
               },
             ),
           ],

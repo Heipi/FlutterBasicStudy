@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class TaskTitle extends StatelessWidget {
   final bool isChecked;
   final String taskTitle;
   Function(bool? checkboxState)? checkboxCallback;
+  Function()? onLongPressCallback;
   TaskTitle(
       {required this.isChecked,
       required this.taskTitle,
-      this.checkboxCallback});
+      this.checkboxCallback,
+      this.onLongPressCallback});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: onLongPressCallback,
       title: Text(
         taskTitle,
         style: TextStyle(
